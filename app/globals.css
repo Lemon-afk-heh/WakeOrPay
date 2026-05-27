@@ -13,10 +13,47 @@
   80% { transform: translateX(6px); }
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
 .pulse-ring {
   animation: pulse-ring 1.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 }
 
 .shake {
   animation: shake 0.5s ease-in-out;
+}
+
+.float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.fade-up {
+  animation: fade-up 0.6s ease-out both;
+}
+
+.fade-up-1 { animation: fade-up 0.6s ease-out 0.1s both; }
+.fade-up-2 { animation: fade-up 0.6s ease-out 0.2s both; }
+.fade-up-3 { animation: fade-up 0.6s ease-out 0.3s both; }
+.fade-up-4 { animation: fade-up 0.6s ease-out 0.4s both; }
+
+.glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
 }
