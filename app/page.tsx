@@ -2,6 +2,7 @@ import Link from 'next/link'
 import {
   AlarmClock, ArrowRight, Bell, CreditCard,
   MessageSquare, X, Flame, Star, Zap, ChevronDown,
+  CheckCircle2, XCircle, Lock, Smartphone,
 } from 'lucide-react'
 
 /* ─────────────────────────────────────────────
@@ -276,11 +277,17 @@ export default function LandingPage() {
             </div>
 
             <div className="px-4 py-4 grid grid-cols-3 gap-2">
-              {[['🔥', '14', 'Streak'], ['✅', '32', 'Check-ins'], ['😬', '2', 'Missed']].map(([e, v, l]) => (
-                <div key={l} className="bg-zinc-800/60 rounded-xl py-3 text-center">
-                  <div>{e}</div>
-                  <div className="text-sm font-black text-white">{v}</div>
-                  <div className="text-zinc-500 text-[10px]">{l}</div>
+              {[
+                { Icon: Flame,        val: '14', label: 'Streak',    iconClass: 'text-orange-400', bgClass: 'bg-orange-500/15' },
+                { Icon: CheckCircle2, val: '32', label: 'Check-ins', iconClass: 'text-emerald-400', bgClass: 'bg-emerald-500/15' },
+                { Icon: XCircle,      val: '2',  label: 'Missed',    iconClass: 'text-red-400',     bgClass: 'bg-red-500/15' },
+              ].map(({ Icon, val, label, iconClass, bgClass }) => (
+                <div key={label} className="bg-zinc-800/60 rounded-xl py-3 text-center">
+                  <div className={`mx-auto w-6 h-6 rounded-md flex items-center justify-center mb-1.5 ${bgClass}`}>
+                    <Icon size={12} className={iconClass} strokeWidth={2.5} />
+                  </div>
+                  <div className="text-sm font-black text-white">{val}</div>
+                  <div className="text-zinc-500 text-[10px]">{label}</div>
                 </div>
               ))}
             </div>
@@ -373,7 +380,7 @@ export default function LandingPage() {
             <div className="w-11 h-11 bg-zinc-800 rounded-xl flex items-center justify-center mb-6">
               <MessageSquare className="text-orange-500" size={20} />
             </div>
-            <h3 className="font-black text-xl mb-2">The shame text 💬</h3>
+            <h3 className="font-black text-xl mb-2">The shame text</h3>
             <p className="text-zinc-400 text-sm mb-6 leading-relaxed">
               Your friend gets an automatic text the moment you miss your window.
               Public accountability is powerful — nobody wants to be that person.
@@ -387,7 +394,7 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="bg-zinc-700 rounded-2xl rounded-tl-sm px-4 py-2.5 text-sm text-zinc-200 leading-relaxed inline-block">
-                Hey — Leroy failed to wake up on time this morning. Again 😬
+                Hey — Leroy failed to wake up on time this morning. Again.
               </div>
             </div>
           </div>
@@ -396,7 +403,7 @@ export default function LandingPage() {
             <div className="w-11 h-11 bg-zinc-800 rounded-xl flex items-center justify-center mb-6">
               <CreditCard className="text-orange-500" size={20} />
             </div>
-            <h3 className="font-black text-xl mb-2">The card charge 💳</h3>
+            <h3 className="font-black text-xl mb-2">The card charge</h3>
             <p className="text-zinc-400 text-sm mb-6 leading-relaxed">
               Miss the check-in window and your card gets charged instantly through Stripe.
               $1, $5, $25 — pick the amount that actually scares you.
@@ -480,10 +487,16 @@ export default function LandingPage() {
               <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
             </Link>
             <div className="flex items-center justify-center gap-8 mt-8 pt-8 border-t border-zinc-800">
-              {[['🔒', 'No card to start'], ['⚡', '2-min setup'], ['📱', 'Any device']].map(([icon, label]) => (
+              {[
+                { Icon: Lock,       label: 'No card to start' },
+                { Icon: Zap,        label: '2-min setup' },
+                { Icon: Smartphone, label: 'Any device' },
+              ].map(({ Icon, label }) => (
                 <div key={label} className="text-center">
-                  <div className="text-base mb-1">{icon}</div>
-                  <div className="text-zinc-600 text-[11px]">{label}</div>
+                  <div className="w-9 h-9 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center mx-auto mb-2">
+                    <Icon className="text-orange-500" size={15} strokeWidth={2} />
+                  </div>
+                  <div className="text-zinc-500 text-[11px] font-medium">{label}</div>
                 </div>
               ))}
             </div>

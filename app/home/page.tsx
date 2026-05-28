@@ -5,7 +5,9 @@ export const dynamic = 'force-dynamic'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { AlarmClock, Settings, Flame, CheckCircle, XCircle, Loader2, Bell, BellOff } from 'lucide-react'
+import { AlarmClock, Settings, Flame, CheckCircle, CheckCircle2, XCircle, Loader2, Bell, BellOff, MessageSquare, CreditCard } from 'lucide-react'
+
+type IconType = React.ComponentType<{ size?: number | string; className?: string; strokeWidth?: number }>
 import { createClient } from '@/lib/supabase/client'
 
 type Stats = {
@@ -185,9 +187,9 @@ export default function HomePage() {
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3">
-          <StatCard icon="🔥" value={stats.streak} label="Day streak" highlight={stats.streak > 0} />
-          <StatCard icon="✅" value={stats.totalCheckins} label="Check-ins" />
-          <StatCard icon="😬" value={stats.totalMissed} label="Missed" />
+          <StatCard Icon={Flame}        value={stats.streak}         label="Day streak" tone="orange" highlight={stats.streak > 0} />
+          <StatCard Icon={CheckCircle2} value={stats.totalCheckins}  label="Check-ins"  tone="emerald" />
+          <StatCard Icon={XCircle}      value={stats.totalMissed}    label="Missed"     tone="red" />
         </div>
 
         {/* Consequences active */}
@@ -197,7 +199,9 @@ export default function HomePage() {
             <div className="space-y-2">
               {alarm.consequences.includes('sms') && (
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-zinc-800 flex items-center justify-center text-sm">💬</div>
+                  <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
+                    <MessageSquare size={14} className="text-orange-500" />
+                  </div>
                   <div>
                     <p className="text-sm font-medium text-white">Shame text</p>
                     <p className="text-xs text-zinc-500">Friend gets a text if you miss</p>
@@ -206,7 +210,9 @@ export default function HomePage() {
               )}
               {alarm.consequences.includes('charge') && (
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-zinc-800 flex items-center justify-center text-sm">💳</div>
+                  <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
+                    <CreditCard size={14} className="text-orange-500" />
+                  </div>
                   <div>
                     <p className="text-sm font-medium text-white">${stats.chargeAmount} charge</p>
                     <p className="text-xs text-zinc-500">Card charged if you miss</p>
@@ -231,10 +237,26 @@ export default function HomePage() {
   )
 }
 
-function StatCard({ icon, value, label, highlight }: { icon: string; value: number; label: string; highlight?: boolean }) {
+function StatCard({
+  Icon, value, label, tone, highlight,
+}: {
+  Icon: IconType
+  value: number
+  label: string
+  tone: 'orange' | 'emerald' | 'red'
+  highlight?: boolean
+}) {
+  const toneClasses = {
+    orange:  { bg: 'bg-orange-500/15',  text: 'text-orange-400',  border: 'border-orange-500/20' },
+    emerald: { bg: 'bg-emerald-500/15', text: 'text-emerald-400', border: 'border-emerald-500/20' },
+    red:     { bg: 'bg-red-500/15',     text: 'text-red-400',     border: 'border-red-500/20' },
+  }[tone]
+
   return (
     <div className={`rounded-xl p-4 text-center border ${highlight ? 'bg-orange-500/10 border-orange-500/20' : 'bg-zinc-900 border-zinc-800'}`}>
-      <div className="text-xl mb-1">{icon}</div>
+      <div className={`mx-auto w-8 h-8 rounded-lg flex items-center justify-center mb-2 border ${toneClasses.bg} ${toneClasses.border}`}>
+        <Icon size={15} className={toneClasses.text} strokeWidth={2.4} />
+      </div>
       <div className={`text-2xl font-black ${highlight ? 'text-orange-400' : 'text-white'}`}>{value}</div>
       <div className="text-zinc-500 text-xs mt-0.5">{label}</div>
     </div>
