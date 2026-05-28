@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* ── Existing ── */
 @keyframes pulse-ring {
   0% { transform: scale(0.8); opacity: 1; }
   100% { transform: scale(1.4); opacity: 0; }
@@ -13,47 +14,95 @@
   80% { transform: translateX(6px); }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
+.pulse-ring { animation: pulse-ring 1.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
+.shake      { animation: shake 0.5s ease-in-out; }
 
+/* ── Page entrance ── */
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.7; }
-}
-
-.pulse-ring {
-  animation: pulse-ring 1.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-}
-
-.shake {
-  animation: shake 0.5s ease-in-out;
-}
-
-.float {
-  animation: float 4s ease-in-out infinite;
-}
-
-.fade-up {
-  animation: fade-up 0.6s ease-out both;
-}
-
+.fade-up   { animation: fade-up 0.6s ease-out both; }
 .fade-up-1 { animation: fade-up 0.6s ease-out 0.1s both; }
 .fade-up-2 { animation: fade-up 0.6s ease-out 0.2s both; }
-.fade-up-3 { animation: fade-up 0.6s ease-out 0.3s both; }
-.fade-up-4 { animation: fade-up 0.6s ease-out 0.4s both; }
+.fade-up-3 { animation: fade-up 0.6s ease-out 0.35s both; }
+.fade-up-4 { animation: fade-up 0.6s ease-out 0.5s both; }
 
-.glow-pulse {
-  animation: glow-pulse 3s ease-in-out infinite;
+/* ── Float (phone mockup) ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
 }
+.float { animation: float 4s ease-in-out infinite; }
+
+/* ── Ambient glow pulse ── */
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.75; }
+}
+.glow-pulse { animation: glow-pulse 4s ease-in-out infinite; }
+
+/* ── Clock hand rotation ── */
+@keyframes clock-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* All hands use fill-box + center-bottom so they rotate around the clock centre */
+.clock-hour {
+  will-change: transform;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: clock-spin 43200s linear infinite;
+  animation-delay: -25200s;   /* start at 7 o'clock */
+}
+.clock-minute {
+  will-change: transform;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: clock-spin 3600s linear infinite;
+  animation-delay: 0s;        /* start at 12 (0 min) */
+}
+.clock-second {
+  will-change: transform;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: clock-spin 60s linear infinite;
+  animation-delay: -30s;      /* start at 6 (30 sec) */
+}
+
+/* ── 3D rock for hero clock ── */
+@keyframes rock-3d {
+  0%, 100% { transform: perspective(900px) rotateX(14deg) rotateY(-20deg) rotateZ(-2deg) scale(1); }
+  25%       { transform: perspective(900px) rotateX(4deg)  rotateY(18deg)  rotateZ(3deg)  scale(1.03); }
+  50%       { transform: perspective(900px) rotateX(-3deg) rotateY(8deg)   rotateZ(1deg)  scale(1.01); }
+  75%       { transform: perspective(900px) rotateX(9deg)  rotateY(-12deg) rotateZ(-1deg) scale(0.98); }
+}
+.rock-3d {
+  will-change: transform;
+  animation: rock-3d 10s ease-in-out infinite;
+}
+
+/* ── Background drifting clocks ── */
+@keyframes drift-a {
+  0%, 100% { transform: translate(0, 0)    rotate(0deg); }
+  33%       { transform: translate(-18px, -28px) rotate(12deg); }
+  66%       { transform: translate(14px, -16px)  rotate(-8deg); }
+}
+@keyframes drift-b {
+  0%, 100% { transform: translate(0, 0)   rotate(0deg); }
+  33%       { transform: translate(22px, 18px) rotate(-18deg); }
+  66%       { transform: translate(-12px, 26px) rotate(10deg); }
+}
+@keyframes drift-c {
+  0%, 100% { transform: translate(0, 0)   rotate(0deg); }
+  50%       { transform: translate(-8px, -36px) rotate(6deg); }
+}
+
+.drift-a  { animation: drift-a 20s ease-in-out infinite; }
+.drift-b  { animation: drift-b 26s ease-in-out infinite; }
+.drift-c  { animation: drift-c 16s ease-in-out infinite; }
+.drift-ar { animation: drift-a 22s ease-in-out infinite reverse; }
+.drift-br { animation: drift-b 24s ease-in-out infinite reverse; }
+.drift-cr { animation: drift-c 18s ease-in-out infinite reverse; }
